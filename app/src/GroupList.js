@@ -19,15 +19,16 @@ class GroupList extends Component {
             .then(data => this.setState({groups: data, isLoading: false}));
     }
 
-    async remove(id) {
-        await fetch(`/api/group/${id}`, {
+    async remove(url) {
+        await fetch(`/api/url/${url.id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(url),
         }).then(() => {
-            let updatedGroups = [...this.state.groups].filter(i => i.id !== id);
+            let updatedGroups = [...this.state.groups].filter(i => i.id !== url.id);
             this.setState({groups: updatedGroups});
         });
     }
@@ -45,17 +46,17 @@ class GroupList extends Component {
         urlId: "google"  kleine Addresse
         user: "jleyria"    Benutzer
          */
-        const groupList = groups.map(group => {
+        const urlList = groups.map(URL => {
             //group.user
             //es fehlt der group user
-            return <tr key={group.id}>
-                <td style={{whiteSpace: 'nowrap'}}>{group.url}</td>
-                <td>{group.urlId}</td>
-                <td>{group.user}</td>
+            return <tr key={URL.id}>
+                <td style={{whiteSpace: 'nowrap'}}>{URL.url}</td>
+                <td>{URL.urlId}</td>
+                <td>{URL.user}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/urls/" + group.id}>Edit</Button>
-                        <Button size="sm" color="danger" onClick={() => this.remove(group.id)}>Delete</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/urls/" + URL.id}>Edit</Button>
+                        <Button size="sm" color="danger" onClick={() => this.remove(URL)}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
@@ -79,7 +80,7 @@ class GroupList extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {groupList}
+                        {urlList}
                         </tbody>
                     </Table>
                 </Container>

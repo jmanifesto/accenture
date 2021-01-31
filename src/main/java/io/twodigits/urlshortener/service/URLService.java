@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface URLService {
 
+    URL shortenURL(URL url, String localURL);
+
     Optional<URL> updateUrl(URL url, String user);
 
     Iterable<URL> listAllURLs();
@@ -38,10 +40,10 @@ public interface URLService {
     /**
      * Return a specific URL by ID.
      *
-     * @param user
+     * @param id
      * @return The URL object
      */
-    Iterable<URL> getURL(String user);
+    Optional<URL> getURL(Long id);
 
     /**
      * Delete a specific URL which belongs to a user.

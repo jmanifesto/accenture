@@ -6,12 +6,9 @@ import AppNavbar from './AppNavbar';
 class GroupEdit extends Component {
 
     emptyItem = {
-        name: '',
-        address: '',
-        city: '',
-        stateOrProvince: '',
-        country: '',
-        postalCode: ''
+        user: '',
+        urlId: '',
+        url: '',
     };
 
     constructor(props) {
@@ -25,7 +22,7 @@ class GroupEdit extends Component {
 
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
-            const group = await (await fetch(`/api/group/${this.props.match.params.id}`)).json();
+            const group = await (await fetch(`/api/url/${this.props.match.params.id}`)).json();
             this.setState({item: group});
         }
     }
@@ -43,7 +40,7 @@ class GroupEdit extends Component {
         event.preventDefault();
         const {item} = this.state;
 
-        await fetch('/api/group' + (item.id ? '/' + item.id : ''), {
+        await fetch('/api/url' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -56,7 +53,7 @@ class GroupEdit extends Component {
 
     render() {
         const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Group' : 'Add Group'}</h2>;
+        const title = <h2>{item.id ? 'Edit Url' : 'Add Url'}</h2>;
 
         return <div>
             <AppNavbar/>
@@ -65,17 +62,17 @@ class GroupEdit extends Component {
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Label for="url">URL</Label>
-                        <Input type="text" name="name" id="name" value={item.url || ''}
+                        <Input type="text" name="url" id="url" value={item.url || ''}
                                onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="shortenedURL">Verkürzte URL</Label>
-                        <Input type="text" name="shortenedURL" id="shortenedURL" value={item.urlId || ''}
+                        <Label for="urlId">Verkürzte URL</Label>
+                        <Input type="text" name="urlId" id="urlId" value={item.urlId || ''}
                                onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="userId">Benutzer</Label>
-                        <Input type="text" name="userId" id="userId" value={item.userId || ''}
+                        <Label for="user">Benutzer</Label>
+                        <Input type="text" name="user" id="user" value={item.user || ''}
                                onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
